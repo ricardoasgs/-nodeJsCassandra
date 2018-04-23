@@ -79,7 +79,7 @@ export async function selectAll(req, res) {
     try {
         client.execute(`SELECT * FROM demo.user`, (err, result) => {
             if (!err) {
-                return res.status(200).send({ message: "Ok." });
+                return res.status(200).send({ result: result.rows });
             } else {
                 res.status(500).send({ message: "Error." });
             }
@@ -110,11 +110,12 @@ export async function selectAll(req, res) {
 //}
 
 export async function select(req, res) {
-    const user = req.body;
+    const { nome } = req.params;
+    console.log(nome);
     try {
-        client.execute(`SELECT * FROM demo.user WHERE firstname='${user.firstname}'`, (err, result) => {
+        client.execute(`SELECT * FROM demo.user WHERE firstname='${nome}'`, (err, result) => {
             if (!err) {
-                return res.status(200).send({ message: "Ok." });
+                return res.status(200).send(result.rows);
             } else {
                 res.status(500).send({ message: "Error." });
             }
